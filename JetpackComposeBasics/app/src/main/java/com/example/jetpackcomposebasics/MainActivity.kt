@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
@@ -101,5 +102,13 @@ fun MyScreenContent(names: List<String> = List(1000) { "Hello Android #$it" }) {
 fun DefaultPreview() {
     MyApp{
         MyScreenContent()
+    }
+}
+
+@Preview(showBackground = true, name = "Text preview")
+@Composable
+fun ThemePreview() {
+    JetpackComposeBasicsTheme() {
+        Greeting(name = "Android")
     }
 }
