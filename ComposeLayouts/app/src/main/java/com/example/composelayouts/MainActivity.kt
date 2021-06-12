@@ -5,10 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -35,12 +32,14 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun PhotographerCard(modifier: Modifier = Modifier){
-    Row(modifier
-        .padding(8.dp)
-        .clip(RoundedCornerShape(4.dp))
-        .background(MaterialTheme.colors.surface)
-        .clickable(onClick = {/**/ })
-        .padding(16.dp)) {
+    Row(
+        modifier
+//        .fillMaxWidth()
+            .padding(8.dp)
+            .clip(RoundedCornerShape(4.dp))
+            .background(MaterialTheme.colors.surface)
+            .clickable(onClick = {/**/ })
+            .padding(16.dp)) {
         Surface(
             modifier = Modifier.size(50.dp),
             shape = CircleShape,
@@ -71,14 +70,24 @@ fun PhotographerCardPreview() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun LayoutsCodelab(){
+    Scaffold { innerPadding ->
+        BodyContent(Modifier.padding(innerPadding))
+    }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun BodyContent(modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        Text(text = "Hi there!")
+        Text(text = "Thanks for going through the Layouts codelab")
+    }
+}
+
+@Preview(name = "layoutsCodelabPreview")
+@Composable
+fun LayoutsCodelabPreview(){
     ComposeLayoutsTheme {
-        Greeting("Android")
+        LayoutsCodelab()
     }
 }
