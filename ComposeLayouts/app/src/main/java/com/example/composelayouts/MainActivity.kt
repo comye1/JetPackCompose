@@ -11,6 +11,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.Agriculture
+import androidx.compose.material.icons.outlined.Cake
+import androidx.compose.material.icons.outlined.Face
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -81,7 +84,7 @@ fun LayoutsCodelab(){
                 },
                 actions = {
                     IconButton(onClick = { /*TODO*/ }) {
-                        Icon(Icons.Filled.Favorite, contentDescription = null)
+                        Icon(Icons.Outlined.Cake, contentDescription = null)
                     }
                 }
             )
