@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -24,7 +26,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeLayoutsTheme {
-               PhotographerCard()
+                LayoutsCodelab()
             }
         }
     }
@@ -71,7 +73,20 @@ fun PhotographerCardPreview() {
 
 @Composable
 fun LayoutsCodelab(){
-    Scaffold { innerPadding ->
+    Scaffold(
+        topBar = {
+            TopAppBar (
+                title = {
+                    Text(text = "LayoutsCodelab")
+                },
+                actions = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.Favorite, contentDescription = null)
+                    }
+                }
+            )
+        }
+    ) { innerPadding ->
         BodyContent(Modifier.padding(innerPadding))
     }
 }
