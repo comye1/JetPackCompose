@@ -6,8 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -29,9 +31,29 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeLayoutsTheme {
-                LayoutsCodelab()
+                SimpleList()
             }
         }
+    }
+}
+
+@Composable
+fun SimpleList(){
+
+    val scrollState = rememberScrollState()
+
+    Column(Modifier.verticalScroll(scrollState)){
+        repeat(100){
+            Text("Item $it")
+        }
+    }
+}
+
+@Preview(name = "ListPreview")
+@Composable
+fun ListPreview(){
+    ComposeLayoutsTheme {
+        SimpleList()
     }
 }
 
@@ -90,7 +112,10 @@ fun LayoutsCodelab(){
             )
         }
     ) { innerPadding ->
-        BodyContent(Modifier.padding(innerPadding).padding(8.dp))
+        BodyContent(
+            Modifier
+                .padding(innerPadding)
+                .padding(8.dp))
     }
 }
 
@@ -102,7 +127,7 @@ fun BodyContent(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(name = "layoutsCodelabPreview")
+//@Preview(name = "layoutsCodelabPreview")
 @Composable
 fun LayoutsCodelabPreview(){
     ComposeLayoutsTheme {
