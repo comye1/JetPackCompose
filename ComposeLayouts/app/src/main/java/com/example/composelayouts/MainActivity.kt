@@ -32,6 +32,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
+import androidx.constraintlayout.compose.atLeast
 import com.example.composelayouts.ui.theme.ComposeLayoutsTheme
 import com.google.accompanist.coil.rememberCoilPainter
 import kotlinx.coroutines.launch
@@ -220,7 +222,7 @@ fun Chip(modifier: Modifier = Modifier, text: String){
     }
 }
 
-@Preview
+//@Preview
 @Composable
 fun ChipPreview(){
     ComposeLayoutsTheme {
@@ -289,5 +291,30 @@ fun ConstraintLayoutContent(){
 fun ConstraintLayoutContentPreview() {
     ComposeLayoutsTheme {
         ConstraintLayoutContent()
+    }
+}
+
+@Composable
+fun LargeConstraintLayout(){
+    ConstraintLayout {
+        val text = createRef()
+
+        val guideline = createGuidelineFromStart(fraction = 0.5f)
+        Text(
+            "This is a very very very very very very very long text",
+            Modifier.constrainAs(text) {
+                linkTo(start = guideline, end = parent.end)
+                width = Dimension.preferredWrapContent.atLeast(100.dp)
+            }
+        )
+    }
+
+}
+
+@Preview
+@Composable
+fun LargeConstraintLayoutPreview() {
+    ComposeLayoutsTheme {
+        LargeConstraintLayout()
     }
 }
