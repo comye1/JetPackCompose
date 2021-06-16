@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.composelayouts.ui.theme.ComposeLayoutsTheme
 import com.google.accompanist.coil.rememberCoilPainter
 import kotlinx.coroutines.launch
@@ -244,5 +245,49 @@ fun BodyContent(modifier : Modifier = Modifier){
                 Chip(modifier = Modifier.padding(8.dp), text = topic)
             }
         }
+    }
+}
+
+@Composable
+fun ConstraintLayoutContent(){
+    ConstraintLayout {
+        val (button1, button2, text) = createRefs()
+
+        Button(
+            onClick = { /*TODO*/ },
+            // Assign reference "button" to the Button composable
+            // and constrain it to the top of the ConstraintLayout
+            modifier = Modifier.constrainAs(button1) {
+                top.linkTo(parent.top, margin = 16.dp)
+            }
+        ) {
+            // Assign reference "text" to the Text composable
+            // and constrain it to the bottom of the Button composable
+            Text("Button 1")
+        }
+
+        Text("Text", Modifier.constrainAs(text) {
+            top.linkTo(button1.bottom, margin = 16.dp)
+            centerAround(button1.end)
+        })
+
+        val barrier = createEndBarrier(button1, text)
+
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier.constrainAs(button2) {
+                top.linkTo(parent.top, margin = 16.dp)
+                start.linkTo(barrier)
+            }
+        ) {
+            Text("Button 2")
+        }
+    }
+}
+@Preview
+@Composable
+fun ConstraintLayoutContentPreview() {
+    ComposeLayoutsTheme {
+        ConstraintLayoutContent()
     }
 }
