@@ -40,6 +40,7 @@ class TodoActivity : AppCompatActivity() {
             }
         }
     }
+
     @Composable
     private fun TodoActivityScreen(todoViewModel: TodoViewModel) {
         val items : List<TodoItem> by todoViewModel.todoItems.observeAsState(listOf())
