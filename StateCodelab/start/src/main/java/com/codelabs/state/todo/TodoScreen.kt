@@ -51,7 +51,7 @@ fun TodoScreen(
 ) {
     Column {
         TodoItemInputBackground(elevate = true, modifier = Modifier.fillMaxWidth()) {
-            TodoItemInput(onItemComplete = onAddItem)
+            TodoItemEntryInput(onItemComplete = onAddItem)
         }
         LazyColumn(
             modifier = Modifier.weight(1f),
@@ -77,9 +77,6 @@ fun TodoScreen(
         }
     }
 }
-@Preview
-@Composable
-fun PreviewTodoItemInput() = TodoItemInput(onItemComplete = { })
 /**
  * Stateless composable that displays a full-width [TodoItem].
  *
@@ -114,7 +111,7 @@ private fun randomTint(): Float {
 }
 
 @Composable
-fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
+fun TodoItemEntryInput(onItemComplete: (TodoItem) -> Unit) {
     val (text, setText) = remember { mutableStateOf("")}
     val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default)}
     val iconsVisible = text.isNotBlank()
@@ -123,19 +120,39 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
         setIcon(TodoIcon.Default)
         setText("")
     }
+    TodoItemInput(
+        text = text,
+        setText = setText,
+        icon = icon,
+        setIcon = setIcon,
+        submit = submit,
+        iconsVisible = iconsVisible
+    )
+}
+
+@Composable
+fun TodoItemInput(
+    text: String,
+    setText: (String) -> Unit,
+    icon: TodoIcon,
+    setIcon: (TodoIcon) -> Unit,
+    submit: () -> Unit,
+    iconsVisible: Boolean
+) {
     Column {
         Row(
             Modifier
                 .padding(horizontal = 16.dp)
                 .padding(top = 16.dp)
-        ){
+        ) {
             TodoInputText(
                 text = text,
                 onTextChange = setText,
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 8.dp),
-                onImeAction = submit)
+                onImeAction = submit
+            )
             TodoEditButton(
                 onClick = submit,
                 text = "Add",
@@ -143,7 +160,7 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
                 enabled = text.isNotBlank()
             )
         }
-        if(iconsVisible) {
+        if (iconsVisible) {
             AnimatedIconRow(icon, setIcon, Modifier.padding(top = 8.dp))
         } else {
             Spacer(modifier = Modifier.height(16.dp))
