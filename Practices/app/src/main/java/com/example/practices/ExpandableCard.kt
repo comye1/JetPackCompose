@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -22,12 +23,24 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 
 @ExperimentalMaterialApi
 @Composable
-fun ExpandableCard(){
+fun ExpandableCard(
+    title: String,
+    titleFontSize: TextUnit = MaterialTheme.typography.h6.fontSize,
+    titleFontWeight: FontWeight = FontWeight.Bold,
+    description: String,
+    descriptionFontSize: TextUnit = MaterialTheme.typography.subtitle1.fontSize,
+    descriptionFontWeight: FontWeight = FontWeight.Normal,
+    descriptionMaxLines: Int = 4,
+    shape: CornerBasedShape = Shapes.medium,
+    padding: Dp = 12.dp,
+
+    ){
     var expandedState by remember {
         mutableStateOf(false)
     }
@@ -43,8 +56,9 @@ fun ExpandableCard(){
                     durationMillis = 300,
                     easing = LinearOutSlowInEasing
                 )
-            ),
-        shape = Shapes.medium,
+            )
+            .padding(padding),
+        shape = shape,
         onClick = {
             expandedState = !expandedState
         }
@@ -59,11 +73,11 @@ fun ExpandableCard(){
                 Text(
                     modifier = Modifier
                         .weight(6f),
-                    text = "My Title",
+                    text = title,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-//                    fontSize = MaterialTheme.typography.h6,
-//                    fontWeight = FontWeight.Bold
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = titleFontSize,
+                    fontWeight = titleFontWeight
                 )
                 IconButton(
                     modifier = Modifier
@@ -81,14 +95,15 @@ fun ExpandableCard(){
             }
             if(expandedState) {
                 Text(
-                    text = "It is a long established fact that a reader will be distracted " +
-                            "by the readable content of a page when looking at its layout. " +
-                            "The point of using Lorem Ipsum is that it has a more-or-less " +
-                            "normal distribution of letters, as opposed to using 'Content here, " +
-                            "content here', making it look like readable English. ",
-                    fontSize = MaterialTheme.typography.subtitle1.fontSize,
-                    fontWeight = FontWeight.Normal,
-                    maxLines = 4,
+                    text = description,
+//                    "It is a long established fact that a reader will be distracted " +
+//                            "by the readable content of a page when looking at its layout. " +
+//                            "The point of using Lorem Ipsum is that it has a more-or-less " +
+//                            "normal distribution of letters, as opposed to using 'Content here, " +
+//                            "content here', making it look like readable English. ",
+                    fontSize = descriptionFontSize,
+                    fontWeight = descriptionFontWeight,
+                    maxLines = descriptionMaxLines,
                     overflow = TextOverflow.Ellipsis
                 )
             }
@@ -100,5 +115,13 @@ fun ExpandableCard(){
 @Composable
 @Preview
 fun ExpandableCardPreview() {
-    ExpandableCard()
+    ExpandableCard(
+        title = "Title",
+        description = "It is a long established fact that a reader will be distracted " +
+                "by the readable content of a page when looking at its layout. " +
+                "The point of using Lorem Ipsum is that it has a more-or-less " +
+                "normal distribution of letters, as opposed to using 'Content here, " +
+                "content here', making it look like readable English. ",
+
+    )
 }
