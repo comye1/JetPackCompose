@@ -4,10 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,45 +20,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PracticesTheme {
-                Column (modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.LightGray)
-                    .padding(24.dp)
-                ) {
-                    ExpandableCard(
-                        title = "Title",
-                        description = "It is a long established fact that a reader will be distracted " +
-                                "by the readable content of a page when looking at its layout. " +
-                                "The point of using Lorem Ipsum is that it has a more-or-less " +
-                                "normal distribution of letters, as opposed to using 'Content here, " +
-                                "content here', making it look like readable English. ",
-
-                        )
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ){
+                    CircularProgressBar(percentage = 0.8f, number = 100)
                 }
+
             }
         }
     }
 }
 
-@ExperimentalMaterialApi
-@Preview
-@Composable
-fun DefaultPreview() {
-    PracticesTheme {
-        Column (modifier = Modifier
-            .fillMaxSize()
-            .background(Color.LightGray)
-            .padding(24.dp)
-        ) {
-            ExpandableCard(
-                title = "Title",
-                description = "It is a long established fact that a reader will be distracted " +
-                        "by the readable content of a page when looking at its layout. " +
-                        "The point of using Lorem Ipsum is that it has a more-or-less " +
-                        "normal distribution of letters, as opposed to using 'Content here, " +
-                        "content here', making it look like readable English. ",
-
-                )
-        }
-    }
-}
