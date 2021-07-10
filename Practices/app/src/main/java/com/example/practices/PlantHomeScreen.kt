@@ -2,6 +2,7 @@ package com.example.practices
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -69,11 +70,17 @@ fun PlantHomeScreen() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(start = 10.dp, end = 10.dp)
                 .height(48.dp)
                 .constrainAs(searchBar) {
                     top.linkTo(topBar.bottom, margin = (-24).dp)
                     centerHorizontallyTo(parent)
                 }
+                .border(
+                    width = 1.dp,
+                    color = Color.LightGray,
+                    shape = RoundedCornerShape(20.dp)
+                )
                 .clip(shape = RoundedCornerShape(20.dp))
                 .background(color = Color.White)
                 .padding(horizontal = 20.dp), contentAlignment = Alignment.Center
@@ -170,7 +177,7 @@ fun PlantHomeScreen() {
                 icon = { Icon(Icons.Filled.Home, contentDescription = "", tint = Color.White) }, label = {
                     Text(text = "Home")
                 })
-            BottomNavigationItem(selected = true, onClick = { /*TODO*/ },
+            BottomNavigationItem(selected = false, onClick = { /*TODO*/ },
                 icon = { Icon(Icons.Filled.Favorite, contentDescription = "", tint = Color.White) }, label = {
                     Text(text = "Favorite")
                 })
