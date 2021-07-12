@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
-import com.example.practices.my.SelectionScreen
+import com.example.practices.ui.theme.TextFields
 
 class MainActivity : ComponentActivity() {
     @ExperimentalComposeUiApi
@@ -13,7 +13,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SelectionScreen()
+            TextFields()
+//            SelectionScreen()
 //            PlantHomeScreen()
 //            ConstraintExample()
 //            LoginScreen()
