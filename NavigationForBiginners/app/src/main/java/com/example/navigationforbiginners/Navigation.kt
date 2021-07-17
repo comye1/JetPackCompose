@@ -63,7 +63,7 @@ fun MainScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                navController.navigate(Screen.DetailScreen.withArgs("text"))
+                navController.navigate(Screen.DetailScreen.withArgs(text))
             },
             modifier = Modifier.align(Alignment.End)
         ) {
