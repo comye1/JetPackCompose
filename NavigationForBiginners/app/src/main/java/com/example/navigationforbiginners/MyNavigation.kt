@@ -4,8 +4,10 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 
 @Composable
@@ -33,17 +35,23 @@ fun MyNavigation() {
     * Principles of Navigation - fixed starting destination
      */
 
-    NavHost(navController = navController, startDestination = "profile"){
+    NavHost(navController = navController, startDestination = "profile/{userId}") {
         // NavGraphBuilder
-        composable("profile"){
-
+        composable(
+            route = "profile/{userId}",
+            // "userId"라는 이름의 navArgument, type은 StringType, 여러 navArgument를 listOf로 묶어 arguments로 설정
+            arguments = listOf(navArgument("userId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            // should extract the NavArguments from the NavBackStackEntry
+            Profile(navController = navController, userId = backStackEntry.arguments?.getString("userId"))
+            // navController.navigate("profile/user1234")와 같이 navigate
         }
-        composable("friendslist"){}
+        composable(route = "friendslist") {}
     }
 }
 
 @Composable
-fun Profile(navController: NavController) {
+fun Profile(navController: NavController, userId: String?) {
 
     /*
     콜백에서만 naviagte()를 호출하여야 한다 (composable 안에서 그냥 호출하면 안됨)
