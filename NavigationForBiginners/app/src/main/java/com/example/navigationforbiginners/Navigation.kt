@@ -27,7 +27,7 @@ fun Navigation() {
         composable(route = Screen.MainScreen.route) {
             MainScreen(navController = navController)
         }
-        composable(route = Screen.DetailScreen.route + "/{name}",
+        composable(route = Screen.DetailScreen.route + "?name={name}",
             arguments = listOf(
                 navArgument("name") {
                     type = NavType.StringType
@@ -63,7 +63,7 @@ fun MainScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                navController.navigate(Screen.DetailScreen.withArgs(text))
+                navController.navigate(Screen.DetailScreen.route + "?name=$text")
             },
             modifier = Modifier.align(Alignment.End)
         ) {
