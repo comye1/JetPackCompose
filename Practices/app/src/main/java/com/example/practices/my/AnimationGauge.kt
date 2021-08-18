@@ -13,16 +13,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AnimationGuageBars() {
+fun AnimationGaugeBars() {
     Column(modifier = Modifier.padding(8.dp)) {
-        AnimationGuageBar(value = 80, color = Color.Red)
+        AnimationGaugeBar(value = 80, color = Color.Red)
         Spacer(modifier = Modifier.height(8.dp))
-        AnimationGuageBar(value = 25, color = Color.Yellow)
+        AnimationGaugeBar(value = 25, color = Color.Yellow)
     }
 }
 
 @Composable
-fun AnimationGuageBar(
+fun AnimationGaugeBar(
     value: Int,
     color: Color
 ) {

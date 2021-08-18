@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun GuageBar(levelGuage: Float) {
+fun GaugeBar(levelGuage: Float) {
     Box {
         Surface(
             modifier = Modifier
@@ -31,15 +31,15 @@ fun GuageBar(levelGuage: Float) {
 
 @Preview
 @Composable
-fun GuageBarPreview() {
+fun GaugeBarPreview() {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp),
         verticalArrangement = Arrangement.SpaceAround
     ) {
-        GuageBar(levelGuage = 0.5f)
-        GuageBar(levelGuage = 0.2f)
-        GuageBar(levelGuage = 0.82f)
+        GaugeBar(levelGuage = 0.5f)
+        GaugeBar(levelGuage = 0.2f)
+        GaugeBar(levelGuage = 0.82f)
     }
 }
