@@ -17,6 +17,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -103,6 +105,16 @@ fun ProfileSection(
             Spacer(modifier = Modifier.width(16.dp))
             StatSection(modifier = Modifier.weight(7f))
         }
+        ProfileDescription(
+            displayName = "Programming Mentor",
+            description = "10 years of coding experience\n" +
+                    "wnat me to make your app? Send me an email!\n" +
+                    "Subscribe to my YouTube channel!",
+            // \n은 줄바꿈 문자 -> Text안에 들어가면 실제로 줄바꿈됨!
+            url = "https://youtube.com/c/PhilippLackner",
+            followedBy = listOf("codinginflow", "miakhalifa"),
+            otherCount = 17
+        )
     }
 }
 
@@ -166,6 +178,68 @@ fun ProfileStats(
 }
 
 @Composable
-fun ProfileDescription() {
-
+fun ProfileDescription(
+    displayName: String,
+    description: String,
+    url: String,
+    followedBy: List<String>,
+    otherCount: Int
+) {
+    val letterSpacing = 0.5.sp
+    val lineHeight = 20.sp
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+    ) {
+        Text(
+            text = displayName,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = letterSpacing, //자간
+            lineHeight = lineHeight //줄간격
+        )
+        Text(
+            text = description,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = letterSpacing,
+            lineHeight = lineHeight
+        )
+        Text(
+            text = url,
+            color = Color(0xFF3D3D91),
+            fontWeight = FontWeight.Bold,
+            letterSpacing = letterSpacing,
+            lineHeight = lineHeight
+        )
+        if (followedBy.isNotEmpty()) {
+            // 말그대로 followedBy 리스트가 비어있지 않으면
+            Text(
+                text = buildAnnotatedString {
+                    //부분적으로 스타일을 지정할 수 있는 String Builder라고 대충 이해
+                    val boldStyle = SpanStyle( // 부분적으로 적용할 Style 정의
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold
+                    )
+                    append("Followed by ")
+                    followedBy.forEachIndexed { index, name ->
+                        // followedBy의 모든 아이템을 순서대로 돌면서
+                        // 현재의 인덱스는 index에, followedBy[index]는 name에 저장됨
+                        pushStyle(boldStyle) // 이 뒤에는 push된 스타일이 적용됨
+                        append(name) // name에 boldStyle이 적용되겠죠??
+                        pop() // 스타일이 pop되어 이제 적용되지 않음
+                        if (index < followedBy.size - 1) { // 마지막 name이 아니면 쉼표를 붙인다
+                            append(", ")
+                        }
+                    }
+                    if (otherCount > 2) { // 2명보다 많으면
+                        append(" and ") // and를 붙이고
+                        pushStyle(boldStyle) // 다시 boldStyle로
+                        append("$otherCount others") // 17 others
+                    }
+                },
+                letterSpacing = letterSpacing,
+                lineHeight = lineHeight
+            )
+        }
+    }
 }
