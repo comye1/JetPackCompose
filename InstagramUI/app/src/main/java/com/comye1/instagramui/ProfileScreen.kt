@@ -1,32 +1,57 @@
 package com.comye1.instagramui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.rounded.AccountBox
+import androidx.compose.material.icons.rounded.GridView
+import androidx.compose.material.icons.rounded.LiveTv
+import androidx.compose.material.icons.rounded.SmartDisplay
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@ExperimentalFoundationApi
+@Preview
 @Composable
 fun ProfileScreen() {
+
+    // 선택된 탭의 index를 저장
+    var selectedTabIndex by remember {
+        mutableStateOf(0)
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(
             name = "philipplackner_official",
@@ -34,6 +59,72 @@ fun ProfileScreen() {
         )
         Spacer(modifier = Modifier.height(4.dp))
         ProfileSection()
+        Spacer(modifier = Modifier.height(25.dp))
+        ButtonSection(modifier = Modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.height(25.dp))
+        HighligtSection(
+            highlights = listOf(
+                ImageWithText(
+                    image = painterResource(id = R.drawable.pic1),
+                    text = "Youtube"
+                ),
+                ImageWithText(
+                    image = painterResource(id = R.drawable.pic4),
+                    text = "Q&A"
+                ),
+                ImageWithText(
+                    image = painterResource(id = R.drawable.pic5),
+                    text = "Discord"
+                )
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+
+        PostTabView(
+            imageWithTexts = listOf(
+                // 탭 아이템
+                // 이미지 구하기 귀찮아서 imageVector(아이콘) -> painter 변환하는 함수 사용했습니다.
+                ImageWithText(
+                    image = rememberVectorPainter(image = Icons.Rounded.GridView),
+                    text = "Posts"
+                ),
+                ImageWithText(
+                    image = rememberVectorPainter(image = Icons.Rounded.SmartDisplay),
+                    text = "Reels"
+                ),
+                ImageWithText(
+                    image = rememberVectorPainter(image = Icons.Rounded.LiveTv),
+                    text = "IGTV"
+                ),
+                ImageWithText(
+                    image = rememberVectorPainter(image = Icons.Rounded.AccountBox),
+                    text = "Profile"
+                ),
+            )
+            // ,onTabSelected = { selectedTabIndex = it } 코틀린에서 마지막 argument가 함수일 때
+            // 밖으로 {}를 빼내어 작성할 수 있습니다!
+            // 대표적으로 Row(){}에서도 {}안의 내용이 원래는 argument 입니다
+        ) {
+            selectedTabIndex = it //그래서 이부분은 onTabSelected 에 해당합니다
+        }
+        when (selectedTabIndex) {
+            0 -> PostSection( // 인덱스가 0 (Posts 탭)인 경우에만 구현을 해놓은 상태입니다.
+                posts = listOf( // List<Painter>인 posts를 전달하면 그리드뷰에 표시되는 것입니다
+                    painterResource(id = R.drawable.cat),
+                    painterResource(id = R.drawable.dog),
+                    painterResource(id = R.drawable.horse),
+                    painterResource(id = R.drawable.rabbit),
+                    painterResource(id = R.drawable.cat),
+                    painterResource(id = R.drawable.dog),
+                    painterResource(id = R.drawable.horse),
+                    painterResource(id = R.drawable.rabbit),
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
 
@@ -239,6 +330,183 @@ fun ProfileDescription(
                 },
                 letterSpacing = letterSpacing,
                 lineHeight = lineHeight
+            )
+        }
+    }
+}
+
+@Composable
+fun ButtonSection(
+    modifier: Modifier = Modifier
+) {
+    val minWidth = 95.dp
+    val height = 30.dp
+    Row(
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        modifier = modifier
+    ) {
+        ActionButton(
+            text = "Following",
+            icon = Icons.Default.KeyboardArrowDown,
+            modifier = Modifier
+                .defaultMinSize(minWidth = minWidth)
+                // 최소너비 지정, text가 이 너비보다 길어지면 그에 맞게 길어짐
+                .height(height)
+        )
+        ActionButton(
+            text = "Message",
+            modifier = Modifier
+                .defaultMinSize(minWidth = minWidth)
+                .height(height)
+        )
+        ActionButton(
+            text = "Email",
+            modifier = Modifier
+                .defaultMinSize(minWidth = minWidth)
+                .height(height)
+        )
+        ActionButton(
+            icon = Icons.Default.KeyboardArrowDown,
+            modifier = Modifier
+                .height(height)
+        )
+    }
+}
+
+@Composable
+fun ActionButton(
+    modifier: Modifier = Modifier,
+    text: String? = null, // 타입 뒤에 ?를 붙이면 해당 타입의 값과 null을 담을 수 있습니다
+    icon: ImageVector? = null
+) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .border(
+                width = 1.dp,
+                color = Color.LightGray,
+                shape = RoundedCornerShape(5.dp)
+            )
+            .padding(6.dp)
+    ) {
+        if (text != null) { // text가 null이 아닐 때
+            Text( // Text를 넣고
+                text = text,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp
+            )
+        }
+        if (icon != null) { // icon이 null이 아닐 때
+            Icon( // Icon을 넣는다
+                imageVector = icon,
+                contentDescription = null,
+                tint = Color.Black
+            )
+        }
+    }
+}
+
+@Composable
+fun HighligtSection(
+    modifier: Modifier = Modifier,
+    highlights: List<ImageWithText>
+) {
+    LazyRow(modifier = modifier) {
+        items(highlights.size) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .padding(end = 15.dp)
+            ) {
+                RoundImage(
+                    image = highlights[it].image, // it -> highlights의 index를 나타냄
+                    modifier = Modifier.size(70.dp)
+                )
+                Text(
+                    text = highlights[it].text,
+                    overflow = TextOverflow.Ellipsis,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun PostTabView(
+    modifier: Modifier = Modifier,
+    imageWithTexts: List<ImageWithText>, // 각 탭
+    onTabSelected: (selectedIndex: Int) -> Unit
+    // 코틀린에서 () -> () 형태는 함수의 표현입니다
+    // 앞부분은 arguments와 arguments의 타입
+    // 뒷부분은 반환하는 타입입니다.
+    // Unit이라는 단어가 생소하실 텐데
+    // C,JAVA의 void와 같이 반환하지 않는 타입입니다.
+) {
+    // 현재 선택된 탭의 인덱스를 저장합니다.
+    var selectedTabIndex by remember {
+        mutableStateOf(0)
+    }
+    val inactiveColor = Color(0xFF777777)
+
+    TabRow( // TabRow는 Tab아이템들을 포함하여 탭뷰를 생성
+        selectedTabIndex = selectedTabIndex, // TabRow가 선택된 Tab을 보여줍니다!
+        backgroundColor = Color.Transparent,
+        contentColor = Color.Black, // 탭을 표시해주는 막대의 색깔
+        modifier = modifier
+    ) {
+        imageWithTexts.forEachIndexed { index, item ->
+            Tab(
+                selected = selectedTabIndex == index,
+                // 이 탭이 선택된 탭인지 알 수 있는 방법! 이해되시나요?
+                // (selectedTabIndex == index)라는 표현식의 값, 즉 true 또는 false
+                selectedContentColor = Color.Black, // selected가 true일 때 {} 내 요소들의 색깔
+                unselectedContentColor = inactiveColor, // selected가 false일 때
+                onClick = { // 클릭이 되면 자신의 index로 selectedTabIndex로 바꿔줘야 합니다!
+                    selectedTabIndex = index
+                    onTabSelected(index)
+                    // 전달받은 onTabSelected함수도 호출해 줍니다 (호출한 쪽에서 로직을 처리합니다)
+                }
+            ) {
+                Icon(
+                    painter = item.image,
+                    contentDescription = "Posts",
+                    // tint = if (selectedTabIndex == index) Color.Black else inactiveColor,
+                    // 위에서 selected/unselectedContentColor를 지정했기 때문에 사실 필요가 없습니다..^^
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(20.dp)
+                )
+            }
+        }
+    }
+}
+
+@ExperimentalFoundationApi
+@Composable
+fun PostSection(
+    posts: List<Painter>,
+    modifier: Modifier = Modifier
+) {
+    LazyVerticalGrid( //리스트를 격자무늬로 보여줍니다.
+        cells = GridCells.Fixed(3), // 3칸짜리..
+//        modifier = modifier.scale(1.01f)
+        // 하얀 구분선의 바깥쪽을 가리기 위한 트릭이라고 설명하는데
+        // 제 기기에서는 탭 표시 막대를 가려서 주석처리 했습니다
+    ) {
+        items(posts.size) {
+            Image(
+                painter = posts[it],
+                contentDescription = null,
+                contentScale = ContentScale.Crop, //가로세로비율은 유지하고 남는부분 자르기
+                modifier = Modifier
+                    .aspectRatio(1f) // 가로 세로 1:1비율
+                    .border( // 하얀 테두리
+                        width = 1.dp,
+                        color = Color.White
+                    )
             )
         }
     }
